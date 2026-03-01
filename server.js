@@ -37,8 +37,14 @@ app.post("/payment", async (req, res) => {
   const { contractor_id, amount } = req.body;
 
   await pool.query(
-    "UPDATE contractors SET ytd_paid = ytd_paid + $1 WHERE id=$2",
-    [amount, contractor_id]
+     CREATE TABLE IF NOT EXISTS contractors (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT,
+    ytd_paid NUMERIC DEFAULT 0,
+    tax_year INTEGER DEFAULT 2025,
+    form_1099_required BOOLEAN DEFAULT FALSE
+  );
   );
 
   res.json({ success: true });
