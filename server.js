@@ -53,3 +53,11 @@ app.post("/payment", async (req, res) => {
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server running");
 });
+app.get("/test-create", async (req, res) => {
+  const result = await pool.query(
+    "INSERT INTO contractors (name,email,ytd_paid) VALUES ($1,$2,0) RETURNING *",
+    ["Browser Test Contractor", "browser@test.com"]
+  );
+
+  res.json(result.rows[0]);
+});
